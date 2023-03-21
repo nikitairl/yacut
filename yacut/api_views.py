@@ -1,11 +1,11 @@
-from http import HTTPStatus
 import re
+from http import HTTPStatus
+
 from flask import jsonify, request, url_for
 
-from . import app, db
+from . import app, constants, db
 from .error_handlers import InvalidAPIUsage
 from .models import URLMap
-from . import constants
 
 
 @app.route("/api/id/<string:short_id>/")
@@ -19,8 +19,8 @@ def get_url(short_id):
 @app.route("/api/id/", methods=["POST"])
 def add_url_map():
     data = request.get_json()
-    custom_id = data.get('custom_id')
-    url = data.get('url')
+    custom_id = data.get("custom_id")
+    url = data.get("url")
     if not data:
         InvalidAPIUsage(constants.MISSING_REQUEST_BODY)
     if "url" not in data:

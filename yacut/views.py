@@ -16,7 +16,7 @@ def index() -> str:
         form.custom_id.data = URLMap.get_unique_short_id()
 
     if not URLMap.available_short(form.custom_id.data):
-        flash(f'Имя {form.custom_id.data} уже занято!')
+        flash(f"Имя {form.custom_id.data} уже занято!")
         return render_template("index.html", form=form)
 
     result_object = URLMap(
