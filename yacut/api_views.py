@@ -8,7 +8,7 @@ from .error_handlers import InvalidAPIUsage
 from .models import URLMap
 
 
-@app.route("/api/id/<string:short_id>/")
+@app.route("/api/id/<string:short_id>/", methods=["GET"])
 def get_url(short_id):
     link = URLMap.query.filter_by(short=short_id).first()
     if not link:
@@ -18,11 +18,11 @@ def get_url(short_id):
 
 @app.route("/api/id/", methods=["POST"])
 def add_url_map():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if not data:
+        raise InvalidAPIUsage(constants.MISSING_REQUEST_BODY)
     custom_id = data.get("custom_id")
     url = data.get("url")
-    if not data:
-        InvalidAPIUsage(constants.MISSING_REQUEST_BODY)
     if "url" not in data:
         raise InvalidAPIUsage(constants.URL_IS_REQUIRED_FIELD)
     try:
