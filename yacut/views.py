@@ -6,7 +6,7 @@ from .models import URLMap
 
 
 @app.route("/", methods=["POST", "GET"])
-def index_view() -> str:
+def index() -> str:
     form = URLForm()
 
     if not form.validate_on_submit():
